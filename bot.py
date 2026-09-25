@@ -2377,7 +2377,7 @@ async def handle_chat_message(
 
     conversation["unread"] += 1
 
-	conversation_id = get_or_create_conversation(
+    conversation_id = get_or_create_conversation(
         user_id,
         profile_name,
         user_name,
