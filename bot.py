@@ -2353,26 +2353,6 @@ async def handle_chat_message(
         profile_name
     )
 
-    if conversation_key not in CONVERSATIONS:
-        CONVERSATIONS[conversation_key] = {
-            "user_id": user_id,
-            "profile_name": profile_name,
-            "user_name": user_name,
-            "city": city,
-            "state": state,
-            "messages": [],
-            "unread": 0
-        }
-
-    conversation = CONVERSATIONS[conversation_key]
-
-    conversation["messages"].append({
-        "sender": "user",
-        "text": message_text
-    })
-
-    conversation["unread"] += 1
-
     conversation_id = get_or_create_conversation(
         user_id,
         profile_name,
