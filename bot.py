@@ -2166,37 +2166,28 @@ async def handle_chat_message(
 
             reply_text = update.message.text
 
-            conversation_key = get_conversation_key(
+            conversation_id = get_or_create_conversation(
                 reply_user_id,
-                reply_profile
+                reply_profile,
+                context.user_data.get(
+                    "new_reply_user_name",
+                    "Unknown"
+                ),
+                context.user_data.get(
+                    "new_reply_city",
+                    "Unknown"
+                ),
+                context.user_data.get(
+                    "new_reply_state",
+                    "Unknown"
+                )
             )
 
-            conversation = CONVERSATIONS.get(
-                conversation_key
-            )
-
-            if not conversation:
-
+            if not conversation_id:
                 await update.message.reply_text(
-                    "❌ Conversation not found."
-                )
-
-                context.user_data.pop(
-                    "new_reply_user_id",
-                    None
-                )
-
-                context.user_data.pop(
-                    "new_reply_profile",
-                    None
-                )
-
-                context.user_data.pop(
-                    "new_reply_mode",
-                    None
-                )
-
-                return
+                "❌ Conversation not found."
+            )
+            return
 
             try:
 
