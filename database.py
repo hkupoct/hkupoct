@@ -254,3 +254,26 @@ def get_admin_conversation_by_id(conversation_id):
         ]
 
         return conversation
+
+def get_conversation_id(user_id, profile_name):
+    if not engine:
+        return None
+
+    with engine.begin() as connection:
+        result = connection.execute(text("""
+            SELECT id
+            FROM conversations
+            WHERE user_id = :user_id
+              AND profile_name = :profile_name
+            LIMIT 1
+        """), {
+            "user_id": user_id,
+            "profile_name": profile_name
+        })
+
+        row = result.fetchone()
+
+        if not row:
+            return None
+
+        return row.id
