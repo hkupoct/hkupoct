@@ -10,7 +10,7 @@ from database import (
     save_chat_message,
     mark_conversation_read,
     get_admin_conversations,
-    get_admin_conversation_by_id()
+    get_admin_conversation_by_id
 )
 from telegram.error import RetryAfter, Forbidden
 from sqlalchemy import update
