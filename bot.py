@@ -1005,7 +1005,7 @@ async def update_admin_inbox(
     conversations = list(
         conversations = get_admin_conversations(20)
 
-    for conversation_key, conversation in conversations:
+    for conversation in conversations:
 
         user_name = conversation.get(
             "user_name",
