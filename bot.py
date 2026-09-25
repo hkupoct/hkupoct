@@ -996,13 +996,13 @@ async def update_admin_inbox(
 
     inbox_text = (
         "📥 TRAUMA ADMIN INBOX\n\n"
-        f"💬 Active conversations: {len(CONVERSATIONS)}\n\n"
+        f"💬 Active conversations: {len(conversations)}\n\n"
     )
 
     keyboard = []
 
     # Show newest conversations first
-        conversations = get_admin_conversations(20)
+    conversations = get_admin_conversations(20)
 
     for conversation in conversations:
 
@@ -1031,14 +1031,10 @@ async def update_admin_inbox(
             0
         )
 
-        # Get latest message
-        latest_message = ""
-
-        if messages:
-            latest_message = messages[-1].get(
-                "text",
-                ""
-            )
+        latest_message = conversation.get(
+            "latest_message",
+            ""
+        )
 
         if len(latest_message) > 50:
             latest_message = (
