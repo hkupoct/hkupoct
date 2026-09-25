@@ -2162,33 +2162,21 @@ async def handle_chat_message(
         reply_mode = context.user_data.get(
             "new_reply_mode"
         )
-
-        if reply_user_id is not None:
+        
+	    if reply_user_id is not None:
 
             reply_text = update.message.text
 
-            conversation_id = get_or_create_conversation(
+            conversation_id = get_conversation_id(
                 reply_user_id,
-                reply_profile,
-                context.user_data.get(
-                    "new_reply_user_name",
-                    "Unknown"
-                ),
-                context.user_data.get(
-                    "new_reply_city",
-                    "Unknown"
-                ),
-                context.user_data.get(
-                    "new_reply_state",
-                    "Unknown"
-                )
+                reply_profile
             )
 
             if not conversation_id:
                 await update.message.reply_text(
-                "❌ Conversation not found."
-            )
-            return
+                    "❌ Conversation not found."
+                )
+                return
 
             try:
 
@@ -2215,10 +2203,11 @@ async def handle_chat_message(
                     text=message_to_user
                 )
 
-                conversation["messages"].append({
-                    "sender": sender_type,
-                    "text": reply_text
-                })
+                save_chat_message(
+                    conversation_id,
+                    sender_type,
+                    reply_text
+                )
 
                 await update.message.reply_text(
                     "✅ Reply sent."
