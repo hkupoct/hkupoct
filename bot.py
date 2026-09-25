@@ -992,7 +992,8 @@ async def update_admin_inbox(
 ):
     global ADMIN_INBOX_MESSAGE_ID
 
-    
+    # Get conversations from PostgreSQL
+    conversations = get_admin_conversations(20)
 
     inbox_text = (
         "📥 TRAUMA ADMIN INBOX\n\n"
@@ -1002,8 +1003,6 @@ async def update_admin_inbox(
     keyboard = []
 
     # Show newest conversations first
-    conversations = get_admin_conversations(20)
-
     for conversation in conversations:
 
         user_name = conversation.get(
@@ -1021,19 +1020,14 @@ async def update_admin_inbox(
             "Unknown"
         )
 
-        messages = conversation.get(
-            "messages",
-            []
-        )
-
-        unread = conversation.get(
-            "unread",
-            0
-        )
-
         latest_message = conversation.get(
             "latest_message",
             ""
+        )
+
+        unread = conversation.get(
+            "unread_count",
+            0
         )
 
         if len(latest_message) > 50:
@@ -1055,10 +1049,12 @@ async def update_admin_inbox(
             f"{status}\n\n"
         )
 
-        keyboard.append([InlineKeyboardButton(
-            f"💬 Open {user_name} × {profile_name}",
-            callback_data=f"open_chat_{conversation['id']}"
-        )])
+        keyboard.append([
+            InlineKeyboardButton(
+                f"💬 Open {user_name} × {profile_name}",
+                callback_data=f"open_chat_{conversation['id']}"
+            )
+        ])
 
     keyboard.append([
         InlineKeyboardButton(
