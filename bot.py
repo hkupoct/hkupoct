@@ -1002,7 +1002,6 @@ async def update_admin_inbox(
     keyboard = []
 
     # Show newest conversations first
-    conversations = list(
         conversations = get_admin_conversations(20)
 
     for conversation in conversations:
