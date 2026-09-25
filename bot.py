@@ -2163,7 +2163,7 @@ async def handle_chat_message(
             "new_reply_mode"
         )
         
-	    if reply_user_id is not None:
+        if reply_user_id is not None:
 
             reply_text = update.message.text
 
